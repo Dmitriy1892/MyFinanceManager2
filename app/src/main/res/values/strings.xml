@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Finance Manager 2</string>
+    <string name="item_card_number_stars">**** **** ****</string>
+
+    <string name="menu_add_description">Add new card</string>
+    <string name="menu_add_title">Add</string>
+    
+</resources>
