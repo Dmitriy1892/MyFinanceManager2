@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:columnCount="2"
+    tools:context=".CreateCardActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="16dp"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text="@string/create_card_name" />
+
+    <EditText
+        android:id="@+id/edit_text_card_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginBottom="16dp"
+        android:inputType="text"
+        android:hint="@string/create_card_name_hint"
+        android:autofillHints="@string/create_card_name_hint"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="16dp"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text="@string/create_card_number" />
+
+    <EditText
+        android:id="@+id/edit_text_card_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginBottom="16dp"
+        android:inputType="number"
+        android:hint="@string/create_card_number_hint"
+        android:autofillHints="@string/create_card_number_hint" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="16dp"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text="@string/create_card_sms_path" />
+
+    <Button
+        android:id="@+id/button_card_sms_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginBottom="16dp"
+        android:onClick="smsPathOnClick"
+        android:layout_column="1"
+        android:text="@string/create_card_sms_path_button"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="16dp"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text="@string/create_card_currency" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_card_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/create_card_currency_list"
+        android:layout_column="1"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="16dp"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text="@string/create_card_balance" />
+
+    <EditText
+        android:id="@+id/edit_text_card_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginBottom="16dp"
+        android:inputType="numberDecimal"
+        android:hint="@string/create_card_balance_hint"
+        android:autofillHints="@string/create_card_balance_hint" />
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:onClick="submitOnClick"
+        android:layout_gravity="fill_horizontal"
+        android:text="@string/create_card_submit" />
+
+</GridLayout>

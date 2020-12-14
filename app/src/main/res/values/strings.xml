@@ -1,8 +1,31 @@
 <resources>
     <string name="app_name">My Finance Manager 2</string>
+
     <string name="item_card_number_stars">**** **** ****</string>
 
+    <!--Menu strings -->
     <string name="menu_add_description">Add new card</string>
     <string name="menu_add_title">Add</string>
-    
+
+    <!-- CreateCardActivity strings -->
+    <string name="create_card_name">Card name:</string>
+    <string name="create_card_name_hint">Enter the card name</string>
+    <string name="create_card_number">Card number:</string>
+    <string name="create_card_number_hint">Enter the card number</string>
+    <string name="create_card_sms_path">SMS path:</string>
+    <string name="create_card_sms_path_button">Path</string>
+    <string name="create_card_currency">Currency:</string>
+    <string-array name="create_card_currency_list">
+        <item>BYN</item>
+        <item>EUR</item>
+        <item>USD</item>
+    </string-array>
+    <string name="create_card_balance">Balance:</string>
+    <string name="create_card_balance_hint">Enter the card balance</string>
+    <string name="create_card_submit">Submit</string>
+    <string name="toast_card_created">Card created!</string>
+    <string name="toast_card_non_created">Card didn\'t created, fill in the fields...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
