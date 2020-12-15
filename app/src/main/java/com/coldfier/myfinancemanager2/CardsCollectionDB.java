@@ -62,7 +62,8 @@ public class CardsCollectionDB {
         cursor.moveToFirst();
         while(i < cursor.getCount()) {
             if (card.getCardID().equals(cursor.getString(cursor.getColumnIndex(CARD_ID)))) {
-                db.delete(CARDS_TABLE, cursor.getString(cursor.getColumnIndex(CARD_ID)), null);
+                //db.delete(CARDS_TABLE, CARD_ID + " = '" + cursor.getString(cursor.getColumnIndex(CARD_ID)) + "';", null);
+                db.delete(CARDS_TABLE, CARD_ID + " = ?", new String[]{cursor.getString(cursor.getColumnIndex(CARD_ID))});
 
                 TransactionsDB transactionsDB = new TransactionsDB(context);
                 transactionsDB.deleteTransactionDB(card);

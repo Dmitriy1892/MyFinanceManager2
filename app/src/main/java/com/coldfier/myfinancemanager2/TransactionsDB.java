@@ -72,7 +72,7 @@ public class TransactionsDB {
         cursor.moveToFirst();
         while (i < cursor.getCount()) {
             if (transaction.getID().equals(cursor.getString(cursor.getColumnIndex(TRANSACTION_ID)))) {
-                db.delete(cardTable, cursor.getString(cursor.getColumnIndex(TRANSACTION_ID)), null);
+                db.delete(cardTable, TRANSACTION_ID + " = ?", new String[]{cursor.getString(cursor.getColumnIndex(TRANSACTION_ID))});
                 break;
             }
             i++;
