@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 public class TransactionsFragment extends Fragment {
@@ -25,6 +27,8 @@ public class TransactionsFragment extends Fragment {
     private TextView tvCardNumber;
     private TextView tvCardCurrency;
     private TextView tvCardBalance;
+
+    private FloatingActionButton fabAddTransaction;
 
     private Card card;
     private String cardId;
@@ -55,6 +59,14 @@ public class TransactionsFragment extends Fragment {
         tvCardNumber = (TextView) view.findViewById(R.id.card_number);
         tvCardCurrency = (TextView) view.findViewById(R.id.card_currency);
         tvCardBalance = (TextView) view.findViewById(R.id.card_balance);
+
+        fabAddTransaction = (FloatingActionButton) view.findViewById(R.id.fab_add_transaction);
+        fabAddTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTransaction();
+            }
+        });
 
         recyclerViewTransactions = view.findViewById(R.id.recycler_view_transactions_container);
         recyclerViewTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -98,6 +110,10 @@ public class TransactionsFragment extends Fragment {
         TransactionsDB db = new TransactionsDB(getContext());
         List<Transaction> transactionsList = db.getTransactionsCollection(card);
         recyclerViewTransactions.setAdapter(new TransactionAdapter(transactionsList));
+    }
+
+    private void addTransaction() {
+
     }
 
     private class TransactionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
