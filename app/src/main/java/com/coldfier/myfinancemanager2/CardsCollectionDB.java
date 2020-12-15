@@ -103,6 +103,7 @@ public class CardsCollectionDB {
     }
 
     public Card getCard(String cardID) {
+        context = context;
         SQLiteDatabase db = new CardsCollectionDBHelper(context.getApplicationContext()).getWritableDatabase();
         Cursor cursor = db.query(CARDS_TABLE, null, null, null, null, null, null);
 

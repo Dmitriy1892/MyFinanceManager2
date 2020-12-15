@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/delete_card"
+        android:title="@string/menu_delete_card_title"
+        android:contentDescription="@string/menu_delete__card_description"
+        android:icon="@drawable/ic_delete_card"
+        app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/edit_card"
+        android:title="@string/menu_edit_card_title"
+        android:contentDescription="@string/menu_edit_card_description"
+        android:icon="@drawable/ic_edit_card"
+        app:showAsAction="ifRoom|withText" />
+</menu>

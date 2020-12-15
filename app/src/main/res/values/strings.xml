@@ -1,8 +1,54 @@
 <resources>
     <string name="app_name">My Finance Manager 2</string>
+
+    <!-- item_card strings -->
     <string name="item_card_number_stars">**** **** ****</string>
 
+    <!-- item_transaction strings -->
+    <string name="transaction_payment">Payment:</string>
+    <string name="transaction_balance">Balance:</string>
+    <string-array name="transaction_category">
+        <item>Products</item>
+        <item>Car</item>
+        <item>Home</item>
+        <item>Mobile</item>
+        <item>Entertainment</item>
+    </string-array>
+
+    <!--Menu card collection strings -->
     <string name="menu_add_description">Add new card</string>
     <string name="menu_add_title">Add</string>
-    
+
+    <!-- Menu transactions strings -->
+    <string name="menu_delete__card_description">Delete card</string>
+    <string name="menu_delete_card_title">Delete card</string>
+    <string name="menu_edit_card_description">Edit card</string>
+    <string name="menu_edit_card_title">Edit card</string>
+
+    <!-- CreateCardActivity strings -->
+    <string name="create_card_name">Card name:</string>
+    <string name="create_card_name_hint">Enter the card name</string>
+    <string name="create_card_number">Card number:</string>
+    <string name="create_card_number_hint">Enter the card number</string>
+    <string name="create_card_sms_path">SMS path:</string>
+    <string name="create_card_sms_path_button">Path</string>
+    <string name="create_card_currency">Currency:</string>
+    <string-array name="create_card_currency_list">
+        <item>BYN</item>
+        <item>EUR</item>
+        <item>USD</item>
+    </string-array>
+    <string name="create_card_balance">Balance:</string>
+    <string name="create_card_balance_hint">Enter the card balance</string>
+    <string name="create_card_submit">Submit</string>
+    <string name="toast_card_created">Card created!</string>
+    <string name="toast_card_non_created">Card didn\'t created, fill in the fields...</string>
+
+    <!-- TransactionsFragment strings -->
+    <string name="fab_description">Add new transaction</string>
+
+
+
+
+
 </resources>
