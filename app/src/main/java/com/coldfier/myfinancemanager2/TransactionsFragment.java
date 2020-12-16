@@ -1,6 +1,8 @@
 package com.coldfier.myfinancemanager2;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +31,12 @@ public class TransactionsFragment extends Fragment {
     private TextView tvCardNumber;
     private TextView tvCardCurrency;
     private TextView tvCardBalance;
+
+    private EditText etDate;
+    private EditText etPayment;
+    private EditText etBalance;
+    private EditText etLocation;
+    private Spinner spinnerCategory;
 
     private FloatingActionButton fabAddTransaction;
 
@@ -64,7 +74,39 @@ public class TransactionsFragment extends Fragment {
         fabAddTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTransaction();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(R.string.dialog_title);
+
+                View dialogView = getLayoutInflater().inflate(R.layout.fragment_new_transaction_dialog, null);
+                builder.setView(dialogView);
+
+                etDate = (EditText) dialogView.findViewById(R.id.dialog_date);
+                etPayment = (EditText) dialogView.findViewById(R.id.dialog_payment);
+                etBalance = (EditText) dialogView.findViewById(R.id.dialog_balance);
+                etLocation = (EditText) dialogView.findViewById(R.id.dialog_location);
+                spinnerCategory = (Spinner) dialogView.findViewById(R.id.dialog_category);
+
+                builder.setPositiveButton(R.string.dialog_add_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!(etDate.getText().toString().isEmpty() && etPayment.getText().toString().isEmpty()
+                                && etBalance.getText().toString().isEmpty() && etLocation.getText().toString().isEmpty())) {
+                            Transaction transaction = new Transaction(
+                                    etDate.getText().toString(),
+                                    (double) Double.parseDouble(etPayment.getText().toString()),
+                                    (double) Double.parseDouble(etBalance.getText().toString()),
+                                    etLocation.getText().toString(),
+                                    spinnerCategory.getSelectedItem().toString()
+                            );
+
+                            TransactionsDB db = new TransactionsDB(getContext());
+                            db.addTransaction(card, transaction);
+                            updateUI();
+                        }
+                    }
+                });
+                builder.create().show();
             }
         });
 
@@ -110,10 +152,6 @@ public class TransactionsFragment extends Fragment {
         TransactionsDB db = new TransactionsDB(getContext());
         List<Transaction> transactionsList = db.getTransactionsCollection(card);
         recyclerViewTransactions.setAdapter(new TransactionAdapter(transactionsList));
-    }
-
-    private void addTransaction() {
-
     }
 
     private class TransactionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

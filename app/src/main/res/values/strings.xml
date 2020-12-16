@@ -47,8 +47,18 @@
     <!-- TransactionsFragment strings -->
     <string name="fab_description">Add new transaction</string>
 
+    <!-- Transactions Dialog Fragment strings -->
+    <string name="dialog_select_date">Select date:</string>
+    <string name="dialog_date_hint">Enter a date</string>
+    <string name="dialog_payment">Payment:</string>
+    <string name="dialog_payment_hint">Enter a payment</string>
+    <string name="dialog_balance">Balance:</string>
+    <string name="dialog_balance_hint">Enter a balance</string>
+    <string name="dialog_location">Location:</string>
+    <string name="dialog_location_hint">Enter a location</string>
+    <string name="dialog_category">Category:</string>
 
-
-
+    <string name="dialog_title">Add new transaction</string>
+    <string name="dialog_add_button">Add</string>
 
 </resources>

@@ -14,8 +14,8 @@ public class Transaction {
     private String category;
     private String id;
 
-    public Transaction(Date date, double payment, double balance, String location, String category) {
-        this.date = sdf.format(date);
+    public Transaction(String date, double payment, double balance, String location, String category) {
+        this.date = date;
         this.payment = payment;
         this.balance = balance;
         this.location = location;
