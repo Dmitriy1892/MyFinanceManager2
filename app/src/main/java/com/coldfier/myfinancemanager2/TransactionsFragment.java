@@ -26,6 +26,8 @@ import java.util.List;
 
 public class TransactionsFragment extends Fragment {
 
+    private static final String EXTRA_SAVE_INSTANCE = "com.coldfier.myfinancemanager2.extraSaveInstance";
+
     private RecyclerView recyclerViewTransactions;
     private TextView tvCardName;
     private TextView tvCardNumber;
@@ -57,6 +59,10 @@ public class TransactionsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        if (savedInstanceState != null) {
+            cardId = savedInstanceState.getString(EXTRA_SAVE_INSTANCE);
+        }
 
         if (cardId != null) {
             CardsCollectionDB db = new CardsCollectionDB(getContext());
@@ -141,6 +147,12 @@ public class TransactionsFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_SAVE_INSTANCE, card.getCardID());
     }
 
     private void updateUI() {
