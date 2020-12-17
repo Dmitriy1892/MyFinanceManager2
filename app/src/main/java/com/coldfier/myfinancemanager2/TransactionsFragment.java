@@ -124,24 +124,6 @@ public class TransactionsFragment extends Fragment {
         recyclerViewTransactions = view.findViewById(R.id.recycler_view_transactions_container);
         recyclerViewTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        /*recyclerViewTransactions.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if (dy > 0 && fabAddTransaction.getVisibility() == View.VISIBLE) {
-                    fabAddTransaction.hide();
-                } else if (dy < 0 && fabAddTransaction.getVisibility() == View.GONE) {
-                    fabAddTransaction.show();
-                }
-            }
-        }); */
-
         updateUI();
 
         setHasOptionsMenu(true);
