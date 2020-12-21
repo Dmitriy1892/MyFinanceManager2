@@ -1,5 +1,7 @@
 package com.coldfier.myfinancemanager2;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,8 +51,11 @@ public class CardsCollectionFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.card_collection_menu, menu);
+
+
     }
 
     @Override
@@ -61,6 +66,12 @@ public class CardsCollectionFragment extends Fragment {
                 startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     private void updateUI() {

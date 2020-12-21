@@ -2,9 +2,10 @@ package com.coldfier.myfinancemanager2;
 
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,15 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,16 +39,16 @@ public class TransactionsFragment extends Fragment {
     private TextView tvCardCurrency;
     private TextView tvCardBalance;
 
-    private EditText etDate;
-    private EditText etPayment;
-    private EditText etBalance;
-    private EditText etLocation;
-    private Spinner spinnerCategory;
-
     private FloatingActionButton fabAddTransaction;
 
     private Card card;
     private String cardId;
+
+    public interface StartNewTransactionFragment {
+        public void startNewTransaction(String cardId);
+    }
+
+    StartNewTransactionFragment startNewTransactionFragment;
 
     public TransactionsFragment() {}
 
@@ -59,6 +59,7 @@ public class TransactionsFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        startNewTransactionFragment = (StartNewTransactionFragment) context;
     }
 
     @Nullable
@@ -85,39 +86,9 @@ public class TransactionsFragment extends Fragment {
         fabAddTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle(R.string.dialog_title);
-
-                View dialogView = getLayoutInflater().inflate(R.layout.fragment_new_transaction_dialog, null);
-                builder.setView(dialogView);
-
-                etDate = (EditText) dialogView.findViewById(R.id.dialog_date);
-                etPayment = (EditText) dialogView.findViewById(R.id.dialog_payment);
-                etBalance = (EditText) dialogView.findViewById(R.id.dialog_balance);
-                etLocation = (EditText) dialogView.findViewById(R.id.dialog_location);
-                spinnerCategory = (Spinner) dialogView.findViewById(R.id.dialog_category);
-
-                builder.setPositiveButton(R.string.dialog_add_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!(etDate.getText().toString().isEmpty() && etPayment.getText().toString().isEmpty()
-                                && etBalance.getText().toString().isEmpty() && etLocation.getText().toString().isEmpty())) {
-                            Transaction transaction = new Transaction(
-                                    etDate.getText().toString(),
-                                    (double) Double.parseDouble(etPayment.getText().toString()),
-                                    (double) Double.parseDouble(etBalance.getText().toString()),
-                                    etLocation.getText().toString(),
-                                    spinnerCategory.getSelectedItem().toString()
-                            );
-
-                            TransactionsDB db = new TransactionsDB(getContext());
-                            db.addTransaction(card, transaction);
-                            updateUI();
-                        }
-                    }
-                });
-                builder.create().show();
+                startNewTransactionFragment.startNewTransaction(cardId);
+                //NewTransactionFragment newTransactionFragment = new NewTransactionFragment(card);
+                //getFragmentManager().beginTransaction().replace(R.id.frame_layout_transactions_container, newTransactionFragment).commit();
             }
         });
 
@@ -152,6 +123,12 @@ public class TransactionsFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 
     @Override
