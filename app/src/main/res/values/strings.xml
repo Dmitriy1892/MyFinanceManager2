@@ -48,7 +48,7 @@
     <string name="fab_description">Add new transaction</string>
 
     <!-- NewTransactionFragment strings -->
-    <string name="new_transaction_select_date">Select date:</string>
+    <string name="new_transaction_select_date">Date/Time:</string>
     <string name="new_transaction_date">Pick a date</string>
     <string name="new_transaction_payment">Payment:</string>
     <string name="new_transaction_payment_hint">Enter a payment</string>
@@ -59,6 +59,8 @@
     <string name="new_transaction_category">Category:</string>
     <string name="new_transaction_add_button">Submit</string>
     <string name="new_transaction_empty_toast">Fill in all the fields</string>
+
+    <string name="new_transaction_at">AT</string>
 
     <!-- DatePickerFragment strings -->
     <string name="date_dialog_title">Pick date and time</string>

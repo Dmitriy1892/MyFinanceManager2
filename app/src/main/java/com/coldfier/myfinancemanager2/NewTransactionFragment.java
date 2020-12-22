@@ -1,6 +1,7 @@
 package com.coldfier.myfinancemanager2;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +21,13 @@ import java.util.Date;
 public class NewTransactionFragment extends Fragment {
 
     private static final String DATE_DIALOG_TAG = "com.coldfier.myfinancemanager2.dateDialogTag";
+    private static final String TIME_DIALOG_TAG = "com.coldfier.myfinancemanager2.timeDialogTag";
+    private static final String SAVE_INSTANCE_TAG = "com.coldfier.myfinancemanager2.saveInstanceTag";
+    private static final int EXTRA_DATE_REQUEST_CODE = 228;
+    private static final int EXTRA_TIME_REQUEST_CODE = 282;
 
     private Button btnDate;
+    private Button btnTime;
     private EditText etPayment;
     private EditText etBalance;
     private EditText etLocation;
@@ -31,7 +37,6 @@ public class NewTransactionFragment extends Fragment {
     private SimpleDateFormat sdf;
     private Date date;
     private Card card;
-    private String cardId;
 
     public NewTransactionFragment() {}
 
@@ -39,37 +44,42 @@ public class NewTransactionFragment extends Fragment {
         this.card = card;
     }
 
-    
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         if (savedInstanceState != null) {
-            //cardId = savedInstanceState.getString("TAG");
             CardsCollectionDB db = new CardsCollectionDB(getContext());
-            card = db.getCard(savedInstanceState.getString("TAG"));
+            card = db.getCard(savedInstanceState.getString(SAVE_INSTANCE_TAG));
         }
 
         View view = inflater.inflate(R.layout.fragment_new_transaction, container, false);
 
         btnDate = (Button) view.findViewById(R.id.new_transaction_date);
+        sdf = new SimpleDateFormat("dd.MM.yyyy");
+        date = new Date(System.currentTimeMillis());
+        btnDate.setText(sdf.format(date));
+        DatePickerFragment dateDialog = new DatePickerFragment();
+        dateDialog.setTargetFragment(this, EXTRA_DATE_REQUEST_CODE);
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerFragment dialog = new DatePickerFragment();
-                dialog.show(getFragmentManager(), DATE_DIALOG_TAG);
+                dateDialog.show(getParentFragmentManager(), DATE_DIALOG_TAG);
             }
         });
-        sdf = new SimpleDateFormat("dd.MM.yyyy 'AT' hh:mm:ss");
-        date = new Date(System.currentTimeMillis());
-        btnDate.setText(sdf.format(date));
+
+        btnTime = (Button) view.findViewById(R.id.new_transaction_time);
+        sdf = new SimpleDateFormat("hh:mm");
+        btnTime.setText(sdf.format(date));
+        TimePickerFragment timeDialog = new TimePickerFragment();
+        timeDialog.setTargetFragment(this, EXTRA_TIME_REQUEST_CODE);
+        btnTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeDialog.show(getParentFragmentManager(), TIME_DIALOG_TAG);
+            }
+        });
+
 
         etPayment = (EditText) view.findViewById(R.id.new_transaction_payment);
         etBalance = (EditText) view.findViewById(R.id.new_transaction_balance);
@@ -82,17 +92,27 @@ public class NewTransactionFragment extends Fragment {
 
                 if (!btnDate.getText().toString().isEmpty() && !etPayment.getText().toString().isEmpty()
                         && !etBalance.getText().toString().isEmpty() && !etLocation.getText().toString().isEmpty()) {
+
+
+
+                    String dateTime = btnDate.getText().toString()+ " " + getResources().getString(R.string.new_transaction_at) + " " +btnTime.getText().toString();
+
                     Transaction transaction = new Transaction(
-                            btnDate.getText().toString(),
+                            dateTime,
                             (double) Double.parseDouble(etPayment.getText().toString()),
                             (double) Double.parseDouble(etBalance.getText().toString()),
                             etLocation.getText().toString(),
                             spinnerCategory.getSelectedItem().toString()
                     );
 
+                    card.setCardBalance(Double.parseDouble(etBalance.getText().toString()));
+                    CardsCollectionDB cardDB = new CardsCollectionDB(getContext());
+                    cardDB.updateCard(card);
+
                     TransactionsDB db = new TransactionsDB(getContext());
                     db.addTransaction(card, transaction);
-                    getParentFragmentManager().popBackStack();
+                    getActivity().finish();
+
                 } else {
                     Toast.makeText(getContext(), R.string.new_transaction_empty_toast, Toast.LENGTH_SHORT).show();
                 }
@@ -105,6 +125,21 @@ public class NewTransactionFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("TAG",  card.getCardID());
+        outState.putString(SAVE_INSTANCE_TAG,  card.getCardID());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case EXTRA_DATE_REQUEST_CODE:
+                    btnDate.setText(data.getStringExtra(DatePickerFragment.EXTRA_DATE_DIALOG));
+                    break;
+                case EXTRA_TIME_REQUEST_CODE:
+                    btnTime.setText(data.getStringExtra(TimePickerFragment.EXTRA_TIME_DIALOG));
+                    break;
+            }
+        }
     }
 }

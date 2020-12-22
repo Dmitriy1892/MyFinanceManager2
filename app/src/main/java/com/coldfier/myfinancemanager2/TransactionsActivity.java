@@ -2,25 +2,12 @@ package com.coldfier.myfinancemanager2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 
-public class TransactionsActivity extends AppCompatActivity implements TransactionsFragment.StartNewTransactionFragment{
+public class TransactionsActivity extends AppCompatActivity {
 
-    private static final String BACK_STACK_TAG = "com.coldfier.myfinancemanager2.backStackTag";
-
-    private TransactionsFragment transactionsFragment;
-    private NewTransactionFragment newTransactionFragment;
-
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
-
-    private Intent intent;
     private String cardId;
 
     @Override
@@ -30,22 +17,17 @@ public class TransactionsActivity extends AppCompatActivity implements Transacti
 
         if (savedInstanceState != null) {
             cardId = savedInstanceState.getString("cardIdSaver");
-            transactionsFragment = (TransactionsFragment) getSupportFragmentManager().getPrimaryNavigationFragment();
-            getSupportFragmentManager().beginTransaction().setPrimaryNavigationFragment(transactionsFragment);
         } else {
-            intent = getIntent();
+            Intent intent = getIntent();
             cardId = intent.getStringExtra(CardsCollectionFragment.EXTRA_CARD_ID);
-            transactionsFragment = new TransactionsFragment(cardId);
-            fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_transactions_container, transactionsFragment);
-            fragmentTransaction.commit();
         }
+        TransactionsFragment transactionsFragment = new TransactionsFragment(cardId);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_transactions_container, transactionsFragment).commit();
     }
 
     @Override
-    public void startNewTransaction(String cardId) {
-        CardsCollectionDB db = new CardsCollectionDB(getApplicationContext());
-        newTransactionFragment = new NewTransactionFragment(db.getCard(cardId));
-        getSupportFragmentManager().beginTransaction().addToBackStack(BACK_STACK_TAG).add(R.id.frame_layout_transactions_container, newTransactionFragment).hide(transactionsFragment).commit();
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override

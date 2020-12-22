@@ -1,11 +1,6 @@
 package com.coldfier.myfinancemanager2;
 
-
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,11 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +23,7 @@ import java.util.List;
 public class TransactionsFragment extends Fragment {
 
     private static final String EXTRA_SAVE_INSTANCE = "com.coldfier.myfinancemanager2.extraSaveInstance";
+    public static final String EXTRA_INTENT_NEW_TRANSACTION = "com.coldfier.myfinancemanager2.extraIntentNewTransaction";
 
     private RecyclerView recyclerViewTransactions;
     private TextView tvCardName;
@@ -44,22 +36,10 @@ public class TransactionsFragment extends Fragment {
     private Card card;
     private String cardId;
 
-    public interface StartNewTransactionFragment {
-        public void startNewTransaction(String cardId);
-    }
-
-    StartNewTransactionFragment startNewTransactionFragment;
-
     public TransactionsFragment() {}
 
     public TransactionsFragment(String cardId) {
         this.cardId = cardId;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        startNewTransactionFragment = (StartNewTransactionFragment) context;
     }
 
     @Nullable
@@ -86,9 +66,9 @@ public class TransactionsFragment extends Fragment {
         fabAddTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startNewTransactionFragment.startNewTransaction(cardId);
-                //NewTransactionFragment newTransactionFragment = new NewTransactionFragment(card);
-                //getFragmentManager().beginTransaction().replace(R.id.frame_layout_transactions_container, newTransactionFragment).commit();
+                Intent intent = new Intent(getActivity(), NewTransactionActivity.class);
+                intent.putExtra(EXTRA_INTENT_NEW_TRANSACTION, cardId);
+                startActivity(intent);
             }
         });
 
@@ -128,6 +108,8 @@ public class TransactionsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        CardsCollectionDB db = new CardsCollectionDB(getContext());
+        card = db.getCard(cardId);
         updateUI();
     }
 

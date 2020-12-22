@@ -5,7 +5,7 @@
     android:padding="12dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="2">
+    android:columnCount="3">
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,9 +16,16 @@
     <Button
         android:id="@+id/new_transaction_date"
         android:layout_width="wrap_content"
+        android:layout_columnWeight="2"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
-        android:text="@string/new_transaction_date" />
+        android:layout_marginEnd="3dp" />
+    <Button
+        android:id="@+id/new_transaction_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
+        android:layout_columnSpan="2"
         android:inputType="numberDecimal"
         android:hint="@string/new_transaction_payment_hint"
         tools:hint="145.08"
@@ -47,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
+        android:layout_columnSpan="2"
         android:inputType="numberDecimal"
         android:hint="@string/new_transaction_balance_hint"
         tools:hint="2577.08"
@@ -63,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
+        android:layout_columnSpan="2"
         android:inputType="text"
         android:hint="@string/new_transaction_location_hint"
         tools:hint="TC KORONA / MINSK"
@@ -79,6 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
+        android:layout_columnSpan="2"
         android:entries="@array/transaction_category" />
 
     <Button
@@ -86,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="3"
         android:layout_gravity="fill_horizontal"
         android:text="@string/new_transaction_add_button" />
 
