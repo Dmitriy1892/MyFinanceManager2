@@ -92,7 +92,7 @@ public class NewTransactionFragment extends Fragment {
 
                     TransactionsDB db = new TransactionsDB(getContext());
                     db.addTransaction(card, transaction);
-                    getFragmentManager().popBackStack();
+                    getParentFragmentManager().popBackStack();
                 } else {
                     Toast.makeText(getContext(), R.string.new_transaction_empty_toast, Toast.LENGTH_SHORT).show();
                 }

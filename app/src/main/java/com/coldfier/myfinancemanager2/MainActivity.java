@@ -14,6 +14,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         collectionFragment = new CardsCollectionFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_container, collectionFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_container, collectionFragment).commit();
     }
 }

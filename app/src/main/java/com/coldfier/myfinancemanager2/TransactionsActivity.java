@@ -2,6 +2,7 @@ package com.coldfier.myfinancemanager2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -29,26 +30,22 @@ public class TransactionsActivity extends AppCompatActivity implements Transacti
 
         if (savedInstanceState != null) {
             cardId = savedInstanceState.getString("cardIdSaver");
+            transactionsFragment = (TransactionsFragment) getSupportFragmentManager().getPrimaryNavigationFragment();
+            getSupportFragmentManager().beginTransaction().setPrimaryNavigationFragment(transactionsFragment);
         } else {
             intent = getIntent();
             cardId = intent.getStringExtra(CardsCollectionFragment.EXTRA_CARD_ID);
-            firstTransaction();
+            transactionsFragment = new TransactionsFragment(cardId);
+            fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_transactions_container, transactionsFragment);
             fragmentTransaction.commit();
         }
-    }
-
-    public void firstTransaction() {
-        transactionsFragment = new TransactionsFragment(cardId);
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction().add(R.id.frame_layout_transactions_container, transactionsFragment);
-
     }
 
     @Override
     public void startNewTransaction(String cardId) {
         CardsCollectionDB db = new CardsCollectionDB(getApplicationContext());
         newTransactionFragment = new NewTransactionFragment(db.getCard(cardId));
-        fragmentManager.beginTransaction().addToBackStack(BACK_STACK_TAG).add(R.id.frame_layout_transactions_container, newTransactionFragment).hide(transactionsFragment).commit();
+        getSupportFragmentManager().beginTransaction().addToBackStack(BACK_STACK_TAG).add(R.id.frame_layout_transactions_container, newTransactionFragment).hide(transactionsFragment).commit();
     }
 
     @Override
