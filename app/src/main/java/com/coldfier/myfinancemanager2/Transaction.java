@@ -32,6 +32,10 @@ public class Transaction {
         this.id = id;
     }
 
+    public Transaction() {
+        this.id = "transaction" + UUID.randomUUID().toString().replace("-", "");
+    }
+
     public SimpleDateFormat getSdf() {
         return sdf;
     }
