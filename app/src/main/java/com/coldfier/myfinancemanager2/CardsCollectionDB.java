@@ -133,6 +133,36 @@ public class CardsCollectionDB {
         return card;
     }
 
+    public Card getCard(int cardNumber) {
+        context = context;
+        SQLiteDatabase db = new CardsCollectionDBHelper(context.getApplicationContext()).getWritableDatabase();
+        Cursor cursor = db.query(CARDS_TABLE, null, null, null, null, null, null);
+
+        Card card = null;
+
+        int i = 0;
+        cursor.moveToFirst();
+        while(i < cursor.getCount()) {
+            if (cardNumber == cursor.getInt(cursor.getColumnIndex(CARD_NUMBER))) {
+                String cardNameNew = cursor.getString(cursor.getColumnIndex(CARD_NAME));
+                int cardNumberNew = cursor.getInt(cursor.getColumnIndex(CARD_NUMBER));
+                int cardSmsPathNew = cursor.getInt(cursor.getColumnIndex(CARD_SMS_PATH));
+                String cardCurrencyNew = cursor.getString(cursor.getColumnIndex(CARD_CURRENCY));
+                double cardBalanceNew = cursor.getDouble(cursor.getColumnIndex(CARD_BALANCE));
+                String cardTransactionsDBNew = cursor.getString(cursor.getColumnIndex(CARD_ID));
+                card = new Card(cardNameNew, cardNumberNew, cardSmsPathNew, cardCurrencyNew, cardBalanceNew, cardTransactionsDBNew);
+                break;
+            }
+            i++;
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        db.close();
+
+        return card;
+    }
+
     public void updateCard(Card card) {
         SQLiteDatabase db = new CardsCollectionDBHelper(context.getApplicationContext()).getWritableDatabase();
 

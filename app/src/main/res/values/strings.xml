@@ -13,6 +13,7 @@
         <item>Home</item>
         <item>Mobile</item>
         <item>Entertainment</item>
+        <item>Other</item>
     </string-array>
 
     <!--Menu card collection strings -->
