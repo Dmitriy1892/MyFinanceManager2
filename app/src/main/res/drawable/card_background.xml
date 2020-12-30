@@ -5,7 +5,6 @@
     <solid android:color="#66CDAA" />
     <size android:width="600dp"
         android:height="300dp" />
-    <corners android:radius="30dp"/>
     <gradient android:type="linear"
         android:startColor="#00BFFF"
         android:endColor="#000080" />

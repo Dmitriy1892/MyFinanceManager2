@@ -3,6 +3,7 @@
 
     <!-- item_card strings -->
     <string name="item_card_number_stars">**** **** ****</string>
+    <string name="item_card_blank"> </string>
 
     <!-- item_transaction strings -->
     <string name="transaction_payment">Payment:</string>
@@ -66,5 +67,11 @@
     <!-- DatePickerFragment strings -->
     <string name="date_dialog_title">Pick date and time</string>
     <string name="date_dialog_add_button">Add</string>
+
+    <!-- DeleteCardDialog strings -->
+    <string name="delete_card_dialog_title">Delete card</string>
+    <string name="delete_card_dialog_text">Confirm card deleting</string>
+    <string name="delete_card_dialog_delete_button">Delete</string>
+    <string name="delete_card_dialog_cancel_button">Cancel</string>
 
 </resources>

@@ -1,6 +1,9 @@
 package com.coldfier.myfinancemanager2;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +15,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +32,7 @@ public class TransactionsFragment extends Fragment {
     public static final String EXTRA_INTENT_NEW_TRANSACTION = "com.coldfier.myfinancemanager2.extraIntentNewTransaction";
 
     private RecyclerView recyclerViewTransactions;
+    private CardView cvCardView;
     private TextView tvCardName;
     private TextView tvCardNumber;
     private TextView tvCardCurrency;
@@ -57,6 +64,9 @@ public class TransactionsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_transactions, container, false);
 
+        cvCardView = (CardView) view.findViewById(R.id.card_view);
+        cvCardView.setRadius(0f);
+
         tvCardName = (TextView) view.findViewById(R.id.card_name);
         tvCardNumber = (TextView) view.findViewById(R.id.card_number);
         tvCardCurrency = (TextView) view.findViewById(R.id.card_currency);
@@ -73,7 +83,10 @@ public class TransactionsFragment extends Fragment {
         });
 
         recyclerViewTransactions = view.findViewById(R.id.recycler_view_transactions_container);
-        recyclerViewTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setStackFromEnd(true);
+        //linearLayoutManager.setReverseLayout(true);
+        recyclerViewTransactions.setLayoutManager(linearLayoutManager);
 
         updateUI();
 
@@ -92,9 +105,25 @@ public class TransactionsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_card:
-                CardsCollectionDB db = new CardsCollectionDB(getContext());
-                db.deleteCard(card);
-                getActivity().finish();
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+                dialogBuilder.setTitle(R.string.delete_card_dialog_title);
+                dialogBuilder.setMessage(R.string.delete_card_dialog_text);
+                dialogBuilder.setPositiveButton(R.string.delete_card_dialog_delete_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CardsCollectionDB db = new CardsCollectionDB(getContext());
+                        db.deleteCard(card);
+                        getActivity().finish();
+                    }
+                });
+                dialogBuilder.setNegativeButton(R.string.delete_card_dialog_cancel_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
                 break;
 
             case R.id.edit_card:

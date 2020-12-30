@@ -8,6 +8,7 @@
     android:layout_margin="8dp"
     app:cardBackgroundColor="#FFFFFFFF"
     app:cardCornerRadius="30dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,6 +24,23 @@
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:text="MTBank" />
+
+        <EditText
+            android:id="@+id/et_card_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:autofillHints="no"
+            android:ems="10"
+            android:hint="@string/item_card_blank"
+            android:inputType="textPersonName"
+            android:padding="0dp"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintBaseline_toBaselineOf="@+id/card_name"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="MTBank" />
 
         <TextView
@@ -51,6 +69,22 @@
             app:layout_constraintStart_toEndOf="@+id/card_number_stars"
             tools:text="4567" />
 
+        <EditText
+            android:id="@+id/et_card_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="no"
+            android:ems="5"
+            android:hint="@string/item_card_blank"
+            android:inputType="number"
+            android:padding="0dp"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:visibility="gone"
+            app:layout_constraintBaseline_toBaselineOf="@+id/card_number"
+            app:layout_constraintStart_toStartOf="@+id/card_number"
+            tools:text="4567" />
+
         <TextView
             android:id="@+id/card_currency"
             android:layout_width="wrap_content"
@@ -65,6 +99,17 @@
             app:layout_constraintTop_toBottomOf="@+id/card_number_stars"
             tools:text="BYN" />
 
+        <Spinner
+            android:id="@+id/spnr_card_currency"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:entries="@array/create_card_currency_list"
+            android:visibility="gone"
+            android:theme="@style/card_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/card_currency" />
+
         <TextView
             android:id="@+id/card_balance"
             android:layout_width="wrap_content"
@@ -75,5 +120,21 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/card_currency"
             app:layout_constraintStart_toEndOf="@+id/card_currency"
             tools:text="1045.00" />
+
+        <EditText
+            android:id="@+id/et_card_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:padding="0dp"
+            android:textSize="28sp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintBaseline_toBaselineOf="@+id/card_balance"
+            app:layout_constraintStart_toStartOf="@+id/card_balance"
+            tools:text="1045.00"/>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
