@@ -27,6 +27,12 @@
     <string name="menu_edit_card_description">Edit card</string>
     <string name="menu_edit_card_title">Edit card</string>
 
+    <!-- Menu transactions_edit_card -->
+    <string name="menu_confirm_description">Confirm</string>
+    <string name="menu_confirm_title">Confirm</string>
+    <string name="menu_cancel_description">Cancel</string>
+    <string name="menu_cancel_title">Cancel</string>
+
     <!-- CreateCardActivity strings -->
     <string name="create_card_name">Card name:</string>
     <string name="create_card_name_hint">Enter the card name</string>

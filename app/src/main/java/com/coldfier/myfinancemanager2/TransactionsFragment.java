@@ -1,9 +1,7 @@
 package com.coldfier.myfinancemanager2;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,13 +9,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,14 +33,19 @@ public class TransactionsFragment extends Fragment {
     private RecyclerView recyclerViewTransactions;
     private CardView cvCardView;
     private TextView tvCardName;
+    private EditText etCardName;
     private TextView tvCardNumber;
+    private EditText etCardNumber;
     private TextView tvCardCurrency;
+    private Spinner spnrCardCurrency;
     private TextView tvCardBalance;
-
+    private EditText etCardBalance;
     private FloatingActionButton fabAddTransaction;
 
     private Card card;
     private String cardId;
+    private int menuEditMarker = 0;
+
 
     public TransactionsFragment() {}
 
@@ -68,9 +72,17 @@ public class TransactionsFragment extends Fragment {
         cvCardView.setRadius(0f);
 
         tvCardName = (TextView) view.findViewById(R.id.card_name);
+        etCardName = (EditText) view.findViewById(R.id.et_card_name);
+
         tvCardNumber = (TextView) view.findViewById(R.id.card_number);
+        etCardNumber = (EditText) view.findViewById(R.id.et_card_number);
+
         tvCardCurrency = (TextView) view.findViewById(R.id.card_currency);
+        spnrCardCurrency = (Spinner) view.findViewById(R.id.spnr_card_currency);
+
         tvCardBalance = (TextView) view.findViewById(R.id.card_balance);
+        etCardBalance = (EditText) view.findViewById(R.id.et_card_balance);
+
 
         fabAddTransaction = (FloatingActionButton) view.findViewById(R.id.fab_add_transaction);
         fabAddTransaction.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +110,11 @@ public class TransactionsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.transactions_menu, menu);
+        if (menuEditMarker == 0) {
+            inflater.inflate(R.menu.transactions_menu, menu);
+        } else {
+            inflater.inflate(R.menu.transactions_menu_edit_card, menu);
+        }
     }
 
     @Override
@@ -128,7 +144,15 @@ public class TransactionsFragment extends Fragment {
 
             case R.id.edit_card:
                 //create code for edit card
+                menuEditMarker = 1;
+                getActivity().invalidateOptionsMenu();
+                editCard();
                 break;
+            case R.id.confirm_edit_card:
+                menuEditMarker = 0;
+                confirmCardChanges();
+                updateUI();
+                getActivity().invalidateOptionsMenu();
         }
 
         return super.onOptionsItemSelected(item);
@@ -150,13 +174,64 @@ public class TransactionsFragment extends Fragment {
 
     private void updateUI() {
         tvCardName.setText(card.getCardName());
+        etCardName.setText(card.getCardName());
+
         tvCardNumber.setText("" + card.getCardNumber());
+        etCardNumber.setText("" + card.getCardNumber());
+
         tvCardCurrency.setText("" + card.getCardCurrency());
+        int selection = 0;
+        switch(card.getCardCurrency()) {
+            case "BYN":
+                selection = 0;
+            case "EUR":
+                selection = 1;
+            case "USD":
+                selection = 2;
+        }
+        spnrCardCurrency.setSelection(selection);
+
         tvCardBalance.setText("" + card.getCardBalance());
+        etCardBalance.setText("" + card.getCardBalance());
+
 
         TransactionsDB db = new TransactionsDB(getContext());
         List<Transaction> transactionsList = db.getTransactionsCollection(card);
         recyclerViewTransactions.setAdapter(new TransactionAdapter(transactionsList));
+    }
+
+    private void editCard() {
+        tvCardName.setVisibility(View.GONE);
+        etCardName.setVisibility(View.VISIBLE);
+
+        tvCardNumber.setVisibility(View.GONE);
+        etCardNumber.setVisibility(View.VISIBLE);
+
+        tvCardCurrency.setVisibility(View.GONE);
+        spnrCardCurrency.setVisibility(View.VISIBLE);
+
+        tvCardBalance.setVisibility(View.GONE);
+        etCardBalance.setVisibility(View.VISIBLE);
+    }
+
+    private void confirmCardChanges() {
+        tvCardName.setVisibility(View.VISIBLE);
+        etCardName.setVisibility(View.GONE);
+        card.setCardName(etCardName.getText().toString());
+
+        tvCardNumber.setVisibility(View.VISIBLE);
+        etCardNumber.setVisibility(View.GONE);
+        card.setCardNumber(Integer.parseInt(etCardNumber.getText().toString()));
+
+        tvCardCurrency.setVisibility(View.VISIBLE);
+        spnrCardCurrency.setVisibility(View.GONE);
+        card.setCardCurrency(spnrCardCurrency.getSelectedItem().toString());
+
+        tvCardBalance.setVisibility(View.VISIBLE);
+        etCardBalance.setVisibility(View.GONE);
+        card.setCardBalance(Double.parseDouble(etCardBalance.getText().toString()));
+        CardsCollectionDB db = new CardsCollectionDB(getContext());
+        db.updateCard(card);
     }
 
     private class TransactionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
